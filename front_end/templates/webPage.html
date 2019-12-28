@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Django Site</title>
+</head>
+
+<body onload="checkBrowser()">
+    <div style="text-align: center;">
+        <text>Leave a Message Here!</text>
+    </div>
+    </br>
+    <div style="text-align: center;">
+    <textarea rows="10" cols="40" id="textArea">Enter your message</textarea>
+    </div>
+    </br>
+    <div style="text-align: center;">
+    <button onclick="submit()">submit</button></td>
+    <button onclick="cancel()">clear</button>
+    </div>
+
+</body>
+
+</html>
+
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="http://www.jq22.com/jquery/jquery-ui-1.11.0.js"></script>
+
+<script>
+    function checkBrowser(){
+        var userAgent = navigator.userAgent;
+        var isSafari = userAgent.indexOf("Safari") > -1
+            && userAgent.indexOf("Chrome") == -1; //判断是否Safari浏览器
+        console.log(isSafari)
+        if(isSafari){
+            alert("Sorry, but Safari can't view messages right now. However, you can still submit your message.")
+        }
+    }
+
+    function cancel() {
+        alert("cleared!")
+        document.getElementById("textArea").value = ""
+    }
+
+    function submit() {
+        var input = document.getElementById("textArea").value
+        var reg = RegExp(/<.+>/);
+        var reg2 =RegExp(/(".+")/)
+        if (typeof input == "undefined" || input == null || input == "" || input == "Enter your message") {
+            alert("Meaningless content!")
+        } else if(input.length>140){
+            alert("Your message is too long. It can't be above 140 words.")
+        } else if(input.match(reg) || input.match(reg2)){
+            alert("Stop playing the fox. Eyes on you.")
+        } else {
+            to_back_end = '/back_end/response/'
+            $.ajax({
+                url: to_back_end,
+                type: 'POST',
+                data: { content: input },
+                success: function (res) {
+                    alert("submit successfully")
+                    window.open("messages")
+                }
+            })
+        }
+    }
+
+</script>

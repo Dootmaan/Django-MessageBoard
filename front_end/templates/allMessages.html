@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Message List</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+
+<body onload="loadMessages()">
+<div><b><text style="font-size: 30px;">Message List</text></b></div>
+<div id="table">
+
+</div>
+</body>
+
+</html>
+
+<script>
+    function loadMessages() {
+        $.ajax({
+            url: '/back_end/loadMessages',
+            type: 'GET',
+            data: {},
+            success: function (res) {
+                document.getElementById("table").innerHTML=res
+            }
+        })
+    }
+</script>
